@@ -98,12 +98,3 @@ A: When used correctly with proper key management, yes
 A: Legal compliance for data responsibility
 
 ```
-
-**Recommended Additions:**
-1. Add screenshots of the CLI in action
-2. Include a `requirements.txt` file
-3. Create a `.gif` demo of the workflow
-4. Add Windows registry tweak documentation
-5. Include CI/CD security checks
-
-This README provides both technical details for security-conscious users and clear instructions for beginners. The warning section helps prevent accidental data loss, while the FAQ addresses common concerns about crypto-wiping.
