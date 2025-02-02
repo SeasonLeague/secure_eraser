@@ -1,79 +1,71 @@
-# Secure Folder Vault
+# Secure Folder Encryption Tool
 
-A military-grade folder encryption/decryption tool with secure deletion capabilities, using AES-256-CTR encryption and DoD-compliant data wiping.
+A robust folder encryption/decryption tool featuring AES encryption with secure file deletion capabilities following **DoD 5220.22-M standards**.
 
 ![Security Shield](https://img.icons8.com/color/96/000000/security-checked--v1.png) 
 
 ## Features
 
-- 🔒 AES-256 Encryption (CTR Mode)
-- 🗑️ 3-Pass DoD 5220.22-M Secure Deletion
-- 🖥️ Cross-Platform Support (Windows/macOS/Linux)
-- 📈 Progress Tracking & Time Estimation
-- 🔑 Single-Use Encryption Key Generation
-- ⚖️ Age Verification & Legal Compliance
-- 💻 Windows Performance Optimizations
+- 🔐 AES-256 encryption in CBC mode
+- 🔄 PBKDF2 key derivation with SHA-256
+- 🗑️ Secure deletion with 7-pass DoD 5220.22-M compliant overwriting
+- 📊 Progress tracking with tqdm
+- 🔑 Salt and IV based encryption
 
 ## Requirements
 
 - Python 3.8+
-- [pycryptodome](https://pycryptodome.readthedocs.io/)
-- Windows: Built-in `cipher.exe`
-- macOS: `srm` (included with OS)
-- Linux: `shred` command
+- cryptography
+- tqdm
+- psutil
 
 ## Installation
 
-```bash
-# Clone repository
-git clone https://github.com/yourusername/secure-folder-vault.git
-cd secure-folder-vault
+1. Clone this repository:
 
-# Install dependencies
-pip install pycryptodome
+```bash
+git clone <repository-url>
+cd <repository-name>
+```
+2. Install required packages:
+
+```bash
+pip install cryptography tqdm psutil
 ```
 
-## Usage
+## Usage:
+The tool can be used to encrypt or decrypt folders using the following commands:
 
-### Encryption
+Encryption
 ```bash
-python vault.py encrypt
+python simple_encrypt.py encrypt <folder_path> --password <your_password>
+```
+Note: If password is not provided, you will be prompted to enter it
 
-✔ Enter birth year: your age
-✔ Storage type [HDD/SSD/NVMe]: NVMe
-✔ Folder path: C:/sensitive-data
-
-[########################################] 100% ETR: 0s
-Encryption key: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Decryption
+```bash
+python simple_encrypt.py decrypt <folder_path> --password <your_password> --salt <salt_value> --iv <iv_value>
 ```
 
-### Decryption
-```bash
-python vault.py decrypt
-✔ Enter .enc file path: C:/sensitive-data.enc
-✔ Enter decryption key: ****************
+If any of the required values are not provided, you will be prompted to enter them.
 
-[########################################] 100% 
-Files restored to current directory
-```
+## Important Notes
+- Store the salt and IV values securely - they are required for decryption
+- Original files are securely wiped after encryption
+- The encryption process is irreversible without the correct password, salt, and IV
+- Encrypted files will have a .enc extension
 
-## Security Specifications
+## Security Features
 
-| Component              | Specification                          |
-|------------------------|----------------------------------------|
-| Encryption Algorithm   | AES-256-CTR (NIST-compliant)           |
-| Key Size               | 256-bit (32 byte)                      |
-| Nonce Size             | 96-bit (12 byte)                       |
-| Wipe Passes            | 3 (DoD 5220.22-M Standard)             |
-| Key Entropy            | CSPRNG (secrets.token_bytes)           |
-| Secure Deletion        | OS-specific physical layer destruction |
+- Military-grade AES-256 encryption
+- 7-pass secure deletion following DoD 5220.22-M standard + one random wipe pass
+- Password-based key derivation with 100,000 iterations
+- Secure random number generation for cryptographic operations
 
-## Warning List
-
-- ☠️ **Irreversible Data Loss** - Original files are permanently destroyed
-- 🔥 **No Key Recovery** - Losing the key means losing access forever
-- 💾 **SSD Limitations** - Physical wiping less effective on flash storage
-- ⚠️ **Admin Rights Required** - For secure deletion operations
+## Warning
+- Always backup important data before encryption
+- Store password, salt, and IV values securely
+- Lost credentials CANNOT be recovered
 
 ## Best Practices
 
@@ -82,19 +74,3 @@ Files restored to current directory
 3. For SSDs: Encrypt before writing sensitive data
 4. Disable cloud sync during operations
 5. Verify backups before deletion
-
-## FAQ
-
-**Q: How long does encryption take?**  
-A: ~1 minute per GB on modern hardware
-
-**Q: Can I recover files without the key?**  
-A: No - AES-256 is computationally infeasible to crack
-
-**Q: Is this NSA-proof?**  
-A: When used correctly with proper key management, yes
-
-**Q: Why the age check?**  
-A: Legal compliance for data responsibility
-
-```
